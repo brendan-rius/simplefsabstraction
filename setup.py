@@ -1,5 +1,9 @@
 from setuptools import setup
 
+requires = [
+    'boto3'
+]
+
 setup(name='simplefsabstraction',
       version='1.0.0',
       description='A (very) simple FS/S3 abstraction',
@@ -8,4 +12,6 @@ setup(name='simplefsabstraction',
       url='https://github.com/brendanrius/simplefsabstraction/',
       download_url='https://github.com/brendanrius/simplefsabstraction/tarball/1.0.0',
       packages=['simplefsabstraction'],
-      keywords=['fs', 's3'])
+      keywords=['fs', 's3'],
+      test_suite='tests',
+      install_requires=requires)
