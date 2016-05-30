@@ -5,12 +5,12 @@ requires = [
 ]
 
 setup(name='simplefsabstraction',
-      version='1.0.0',
+      version='1.0.2',
       description='A (very) simple FS/S3 abstraction',
       author='Brendan Rius',
       author_email='ping@brendan-rius.com',
       url='https://github.com/brendan-rius/simplefsabstraction/',
-      download_url='https://github.com/brendan-rius/simplefsabstraction/tarball/1.0.0',
+      download_url='https://github.com/brendan-rius/simplefsabstraction/tarball/1.0.2',
       packages=['simplefsabstraction'],
       keywords=['fs', 's3'],
       test_suite='tests',
