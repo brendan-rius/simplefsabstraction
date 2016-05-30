@@ -12,7 +12,6 @@ class S3FS(SimpleFS):
     def __init__(self, bucket_name):
         self._s3 = boto3.resource('s3')
         self.bucket_name = bucket_name
-        print(boto3.client('s3').list_buckets())
 
     def _bucket_exists(self, bucket_name):
         """
