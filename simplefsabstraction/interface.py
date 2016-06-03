@@ -18,12 +18,29 @@ class SimpleFS:
     @staticmethod
     def from_config(config):
         from simplefsabstraction import S3FS, LocalFS
+
+        def s3_from_config(config):
+            """
+            Create an instance of S3FS from the config
+            """
+            if 'access_key' in config and 'secret_key' in config:
+                credentials = {'access_key': config['access_key'],
+                               'secret_key': config['secret_key']}
+            else:
+                credentials = None
+            try:
+                bucket_name = config['bucket_name']
+            except KeyError:
+                raise Exception('Please specify the bucket name in the config')
+            return S3FS(bucket_name, credentials)
+
         try:
             method = config['method'].lower()
         except KeyError:
             raise Exception('Please specify the key "method" in the config')
+
         if method == 's3':
-            return S3FS(config['bucket_name'])
+            return s3_from_config(config)
         elif method == 'local':
             return LocalFS()
         else:
