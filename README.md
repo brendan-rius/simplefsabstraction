@@ -7,6 +7,8 @@ Supports:
  * local
  * S3
 
+Inspired by `pyramid_storage`, but this one is not hardwired to pyramid.
+
 # Installation
 
 Requires:
@@ -15,19 +17,4 @@ Requires:
 ```
 $ git clone https://github.com/brendanrius/simplefsabstraction/
 $ pip install simplefsabstraction
-```
-
-# Contribute
-
-The tests are made to be run in Docker (to not mess with the local filesystem):
-
-```
-$ CONTAINER_ID=$(docker build .) (to be done only once)
-$ docker run $CONTAINER_ID
-```
-
-You can run the tests without Docker (at your own risk):
-
-```
-python setup.py test
 ```

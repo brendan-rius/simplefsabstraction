@@ -1,4 +1,11 @@
+import uuid
+
+
 class SimpleFS:
+    class BadExtensionError(Exception):
+        def __init__(self):
+            super().__init__('Extension not allowed')
+
     def exists(self, file_name):
         """
         Check whether a file exists in the file system
@@ -7,13 +14,32 @@ class SimpleFS:
         """
         raise NotImplementedError
 
-    def save(self, source_file, dest_name):
+    def save(self, source_file, dest_name, randomize=False, extensions=None):
         """
         Save a file to the file system
         :param source_file: the source file
         :param dest_name: the destination name
-¬        """
+        :param randomize: use a random file name
+        :param extensions: list of allowed file extensions
+        :return the generated filename
+        """
         raise NotImplementedError
+
+    @staticmethod
+    def _check_extension(filename, extensions):
+        """
+        Check is a filename has an allowed extension
+        :param filename: the filename
+        :return: true if allowed extension, false otherwise
+        """
+        return any(filename.endswith(".{}".format(ext)) for ext in extensions)
+
+    @staticmethod
+    def _random_filename():
+        """
+        Generate a random filename
+        """
+        return str(uuid.uuid4())
 
     @staticmethod
     def from_config(config):

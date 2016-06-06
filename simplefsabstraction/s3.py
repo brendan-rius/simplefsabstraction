@@ -55,8 +55,14 @@ class S3FS(SimpleFS):
                 raise e
         return True
 
-    def save(self, source_file, dest_name):
+    def save(self, source_file, dest_name, randomize=False, extensions=None):
+        if extensions and not self._check_extension(dest_name, extensions):
+            raise SimpleFS.BadExtensionError()
+
+        filename = self._random_filename() if randomize else dest_name
+
         if not self._bucket_exists(self.bucket_name):
             raise S3FS.BucketNotFoundError(self.bucket_name)
 
-        self._s3.Object(self.bucket_name, dest_name).put(Body=open(source_file, 'rb'))
+        self._s3.Object(self.bucket_name, filename).put(Body=open(source_file, 'rb'))
+        return filename
