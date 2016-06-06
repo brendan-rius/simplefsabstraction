@@ -18,3 +18,7 @@ Requires:
 $ git clone https://github.com/brendanrius/simplefsabstraction/
 $ pip install simplefsabstraction
 ```
+
+# Changelog
+
+ * 1.3.0: `save()` can now handle the case where the source file is a file, now just a filename

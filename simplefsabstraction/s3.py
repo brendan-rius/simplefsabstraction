@@ -64,5 +64,13 @@ class S3FS(SimpleFS):
         if not self._bucket_exists(self.bucket_name):
             raise S3FS.BucketNotFoundError(self.bucket_name)
 
-        self._s3.Object(self.bucket_name, filename).put(Body=open(source_file, 'rb'))
+        # If the source file is a file name
+        if type(source_file) is str:
+            with open(source_file, 'rb') as body:
+                self._s3.Object(self.bucket_name, filename).put(Body=body)
+        # If it is already a file
+        else:
+            source_file.seek(0)
+            self._s3.Object(self.bucket_name, filename).put(Body=source_file)
+
         return filename
