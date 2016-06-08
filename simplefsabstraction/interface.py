@@ -42,6 +42,24 @@ class SimpleFS:
 
     @staticmethod
     def from_config(config):
+        """
+        Instantiate a file system abstraction from a configuration dictionary.
+        Example:
+        {
+            'method': 's3',
+            'access_key': 'my_access_key',
+            'secret_key': 'my_secret_key',
+            'bucket_name': 'my_bucket_name'
+        }
+
+        or
+
+        {
+            'method': 'local',
+            'base_path': '/tmp/',
+            'allowed_extensions': ['jpg', 'png']
+        }
+        """
         from simplefsabstraction import S3FS, LocalFS
 
         def s3_from_config(config):
