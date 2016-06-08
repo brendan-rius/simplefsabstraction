@@ -21,4 +21,5 @@ $ pip install simplefsabstraction
 
 # Changelog
 
+ * 1.3.1: fix a few bugs (mostly in the from_config method)
  * 1.3.0: `save()` can now handle the case where the source file is a file, now just a filename
