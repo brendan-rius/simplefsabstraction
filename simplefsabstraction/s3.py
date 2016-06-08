@@ -9,7 +9,7 @@ class S3FS(SimpleFS):
         def __init__(self, bucket_name):
             super().__init__('Bucket "{}" does not exist'.format(bucket_name))
 
-    def __init__(self, bucket_name, credentials=None):
+    def __init__(self, bucket_name, allowed_extensions=None, credentials=None):
         """
         :param bucket_name: the bucket to use
         :param credentials: a dictionary containing the credentials (keys:4 access_key and secret_key) (optional)
@@ -24,6 +24,7 @@ class S3FS(SimpleFS):
 
         self._s3 = self._session.resource('s3')
         self.bucket_name = bucket_name
+        self.allowed_extensions = allowed_extensions
 
     def _bucket_exists(self, bucket_name):
         """
@@ -55,8 +56,8 @@ class S3FS(SimpleFS):
                 raise e
         return True
 
-    def save(self, source_file, dest_name, randomize=False, extensions=None):
-        if extensions and not self._check_extension(dest_name, extensions):
+    def save(self, source_file, dest_name, randomize=False):
+        if self.allowed_extensions and not self._check_extension(dest_name, self.allowed_extensions):
             raise SimpleFS.BadExtensionError()
 
         filename = self._random_filename() if randomize else dest_name

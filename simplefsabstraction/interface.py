@@ -14,13 +14,12 @@ class SimpleFS:
         """
         raise NotImplementedError
 
-    def save(self, source_file, dest_name, randomize=False, extensions=None):
+    def save(self, source_file, dest_name, randomize=False):
         """
         Save a file to the file system
         :param source_file: the source file
         :param dest_name: the destination name
         :param randomize: use a random file name
-        :param extensions: list of allowed file extensions
         :return the generated filename
         """
         raise NotImplementedError
@@ -58,7 +57,15 @@ class SimpleFS:
                 bucket_name = config['bucket_name']
             except KeyError:
                 raise Exception('Please specify the bucket name in the config')
-            return S3FS(bucket_name, credentials)
+            allowed_extensions = config['allowed_extensions'] if 'allowed_extensions' in config else None
+            return S3FS(bucket_name, allowed_extensions=allowed_extensions, credentials=credentials)
+
+        def local_from_config(config):
+            """
+            Create an instance of LocalFS from the config
+            """
+            allowed_extensions = config['allowed_extensions'] if 'allowed_extensions' in config else None
+            return LocalFS(allowed_extensions=allowed_extensions)
 
         try:
             method = config['method'].lower()
@@ -68,6 +75,6 @@ class SimpleFS:
         if method == 's3':
             return s3_from_config(config)
         elif method == 'local':
-            return LocalFS()
+            return local_from_config(config)
         else:
             raise Exception('Method "{}" not known'.format(method))

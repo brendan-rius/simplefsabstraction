@@ -11,11 +11,12 @@ class LocalFS(SimpleFS):
     The local file system
     """
 
-    def __init__(self, base_path=''):
+    def __init__(self, allowed_extensions=None, base_path=''):
         """
         :param base_path: a path prefix that will be appended to the file names
         """
         self.base_path = base_path
+        self.allowed_extensions = allowed_extensions
 
     def exists(self, file_name):
         return os.path.isfile(self.base_path + file_name)
@@ -36,8 +37,8 @@ class LocalFS(SimpleFS):
             with open(filename, "wb") as dest:
                 shutil.copyfileobj(source_file, dest)
 
-    def save(self, source_file, dest_name, randomize=False, extensions=None):
-        if extensions and not self._check_extension(dest_name, extensions):
+    def save(self, source_file, dest_name, randomize=False):
+        if self.allowed_extensions and not self._check_extension(dest_name, self.allowed_extensions):
             raise SimpleFS.BadExtensionError()
         filename = self.base_path + (self._random_filename() if randomize else dest_name)
         self._save(source_file, filename)

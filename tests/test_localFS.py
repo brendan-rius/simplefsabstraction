@@ -16,6 +16,6 @@ class TestLocalFS(TestCase):
         self.assertTrue(local_fs.exists('/tmp/existingfile'))
 
     def test_allowed_extension_fails(self):
-        local_fs = LocalFS()
+        local_fs = LocalFS(allowed_extensions=['jpg'])
         with self.assertRaises(SimpleFS.BadExtensionError):
-            local_fs.save(None, "abc.png", extensions=['jpg'])
+            local_fs.save(None, "abc.png")
