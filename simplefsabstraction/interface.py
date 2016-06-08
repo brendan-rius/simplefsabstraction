@@ -65,7 +65,10 @@ class SimpleFS:
             Create an instance of LocalFS from the config
             """
             allowed_extensions = config['allowed_extensions'] if 'allowed_extensions' in config else None
-            return LocalFS(allowed_extensions=allowed_extensions)
+            if 'base_path' in config:
+                return LocalFS(allowed_extensions=allowed_extensions, base_path=config['base_path'])
+            else:
+                return LocalFS(allowed_extensions=allowed_extensions)
 
         try:
             method = config['method'].lower()
